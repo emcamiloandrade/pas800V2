@@ -27,9 +27,9 @@ def recibir_archivo():
  
     # Crear carpeta por fecha (YYYY-MM-DD)
     fecha = datetime.now().strftime("%Y-%m-%d")
-    base_path = os.getcwd()
-    carpeta_destino = os.path.join(base_path, "uploads")
-    carpeta_destino = os.path.join("uploads", fecha)
+    # base_path = os.getcwd()
+    carpeta_destino = os.path.join("/home/excel", "uploads")
+    carpeta_destino = os.path.join(carpeta_destino, fecha)
     os.makedirs(carpeta_destino, exist_ok=True)
  
     archivo_path = os.path.join(carpeta_destino, archivo.filename)
