@@ -42,6 +42,7 @@ def recibir_archivo():
 def recibir_peticion_seriot():
     try:
         datos = request.get_json()
+        print("Datos recibidos: ", datos)
         payload = {
             "device": datos['device'],
             "date": datos['date'],
