@@ -42,7 +42,6 @@ def recibir_archivo():
 def recibir_peticion_seriot():
     try:
         datos = request.get_json()
-        print("Datos recibidos: ", datos)
         payload = {
             "device": datos['device'],
             "date": datos['date'],
@@ -52,13 +51,11 @@ def recibir_peticion_seriot():
         header = {
             "X-Auth-Token": request.headers.get('X-Auth-Token')
         }
-        print("Entre a enviar info a NOVA")
         response = requests.post(
             url="https://canovabackendprodenergym.happysmoke-127484da.eastus2.azurecontainerapps.io/telemetry/seriot/load",
             headers=header,
             data=payload,
         )
-        print("Despues de enviar datos a NOVA")
         print("Me respondio: ", response.status_code)
         if response.status_code in [200,201,202]:
             return jsonify({"mensaje": f"Dato almacenado correctamente, {response.content}"}), 200
@@ -66,7 +63,8 @@ def recibir_peticion_seriot():
             return jsonify({"mensaje": "Dato no almacenado"}), 400
     except Exception as e:
         print(str(e))
-        return jsonify({"mensaje": "Problemas al procesar datos"}), 500
+        print("Datos recibidos: ", datos)
+        return jsonify({"mensaje": "Problemas al procesar datos"}), 202
 
 
 if __name__ == '__main__':
