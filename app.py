@@ -42,12 +42,14 @@ def recibir_archivo():
 def recibir_peticion_seriot():
     try:
         datos = request.get_json()
+        print("Datos recibidos: ", datos)
         payload = {
             "device": datos['device'],
             "date": datos['date'],
             "Activa": datos['Activa'],
             "Reactiva": datos['Reactiva'],
         }
+        print("Payload a enviar: ", payload)
         header = {
             "X-Auth-Token": request.headers.get('X-Auth-Token')
         }
