@@ -42,7 +42,7 @@ def recibir_archivo():
 def recibir_peticion_seriot():
     try:
         datos = request.get_json()
-        #print("Datos recibidos: ", datos)
+        print("Datos recibidos: ", datos)
         payload = {
             "device": datos['device'],
             "date": datos['date'],
@@ -66,7 +66,7 @@ def recibir_peticion_seriot():
     except Exception as e:
         print(str(e))
         print("Datos recibidos: ", datos)
-        return jsonify({"mensaje": "Problemas al procesar datos"}), 202
+        return jsonify({"mensaje": "Problemas al procesar datos"}), 500
 
 
 if __name__ == '__main__':
