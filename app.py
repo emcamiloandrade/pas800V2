@@ -20,7 +20,7 @@ def verify_password(username, password):
 
 def get_daily_logger():
     """Configura y devuelve un logger que escribe en un archivo con la fecha actual."""
-    log_dir = os.path.join(os.getcwd(), "logs")
+    log_dir = "/home/LogFiles"
     os.makedirs(log_dir, exist_ok=True)
     
     today = datetime.now().strftime("%Y-%m-%d")
@@ -105,7 +105,7 @@ def recibir_peticion_seriot():
         if 'datos' in locals():
             print("Datos recibidos: ", datos)
             logger.error(f"Datos que causaron error: {datos}")
-        return jsonify({"mensaje": "Problemas al procesar datos"}), 500
+        return jsonify({"mensaje": "Problemas al procesar datos"}), 204
 
 
 if __name__ == '__main__':
