@@ -73,16 +73,19 @@ def recibir_peticion_seriot():
     try:
         logger = get_daily_logger()
         datos = request.get_json()
-        # print(datos)
         logger.info(f"Datos recibidos: {datos}")
 
         payload = {
             "device": datos['device'],
             "date": datos['date'],
-            "Activa": datos['Activa'],
-            "Reactiva": datos['Reactiva'],
         }
-        # print(payload)
+        if 'Activa' in datos:
+            payload['Activa'] = datos['Activa']
+
+        if 'Reactiva' in datos:
+            payload['Reactiva'] = datos['Reactiva']
+        if 'Activa' not in datos and 'Reactiva' not in datos:
+            raise Exception("La trama de datos no cuenta con Activa y reactiva")
         header = {
             "X-Auth-Token": request.headers.get('X-Auth-Token')
         }
@@ -97,17 +100,15 @@ def recibir_peticion_seriot():
             return jsonify({"mensaje": f"Dato almacenado correctamente, {response.content}"}), 200
         else:
             logger.warning(f"Fallo al almacenar en backend. Status: {response.status_code}")
-            return jsonify({"mensaje": "Dato no almacenado"}), 400
+            return jsonify({"mensaje": "Dato no almacenado"}), 200
     except Exception as e:
-        logger = get_daily_logger() # Asegurar logger en caso de error temprano
-        # print(str(e))
+        logger = get_daily_logger()
         logger.error(f"Excepcion ocurrida: {str(e)}")
         if 'datos' in locals():
             print("Datos recibidos: ", datos)
             logger.error(f"Datos que causaron error: {datos}")
-        return jsonify({"mensaje": "Problemas al procesar datos"}), 204
-
-
+        return jsonify({"mensaje": "Problemas al procesar datos"}), 200
+ 
 if __name__ == '__main__':
     app.run()
   
